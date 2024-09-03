@@ -63,18 +63,46 @@ export const login = async (req, res) => {
     try {
         const {username, password} = req.body;
         const user = await User.findOne({ username });
-        const isPasswordCorrect = await bcryptjs.compare(password, user?.password || "")
+        const isPasswordCorrect = await bcryptjs.compare(password, user?.password || "");
 
         if(!user || !isPasswordCorrect) {
             return res.status(400).json({error: "Invalid credentials"})
-        }
+        };
+
+        generateTokenAndSetCookie(user._id, res);
+
+        res.status(200).json({
+            _id: newUser._id,
+            fullName: newUser.fullName,
+            email: newUser.email,
+            profileImg: newUser.profileImg,
+            coverImg: newUser.coverImg,
+            bio: newUser.bio, 
+            link: newUser.link,
+            followers: newUser.followers,
+            following: newUser.following
+        })
+
     } catch (error) {
         res.status(500).json({error: "Internal server error"})
     }
 };
 
 export const logout = async (req, res) => {
-    res.json({
-        data: "You hit the logout end point"
-    })
+    try {
+        res.cookie("jwt", "", {
+            maxAge: 0
+        })
+        res.status(200).json({message: "Logged out successfully"})
+    } catch (error) {
+        res.status(500).json({error: "Internal server error"})
+    }
+};
+
+export const getMe = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).select()
+    } catch (error) {
+        
+    }
 }

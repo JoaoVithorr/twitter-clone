@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 3030;
 
 app.use('/api/auth', authRoutes);
 
+app.use(express.json()); // to parse req.body
+
 app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`)
     connectMongoDB()

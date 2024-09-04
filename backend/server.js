@@ -1,5 +1,6 @@
 import express from 'express';
 import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import dotenv from 'dotenv';
 import connectMongoDB from './db/connect.MongoDB.js'
 import cookieParser from 'cookie-parser';
@@ -15,6 +16,7 @@ app.use(express.json()); // to parse req.body
 app.use(cookieParser());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`)

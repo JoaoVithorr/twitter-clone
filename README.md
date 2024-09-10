@@ -1,2 +1,2 @@
 # A twitter clone 
-using MERN
+using MERN: mongodb, express
